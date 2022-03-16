@@ -1,0 +1,74 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int          @id @default(autoincrement())
+  email      String       @unique
+  password   String
+  name       String       @unique
+  Profile    Profile?
+  Tweet      Tweet[]
+  likedTweet LikedTweet[]
+  comments   Comment[]
+  Following  Following[]
+}
+
+model Profile {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  bio       String?
+  location  String?
+  website   String?
+  avatar    String?
+  userId    Int?     @unique
+  User      User?    @relation(fields: [userId], references: [id])
+}
+
+model Tweet {
+  id        Int          @id @default(autoincrement())
+  createdAt DateTime     @default(now())
+  content   String?
+  author    User?        @relation(fields: [authorId], references: [id])
+  authorId  Int?
+  likes     LikedTweet[]
+  comments  Comment[]
+}
+
+model LikedTweet {
+  id      Int      @id @default(autoincrement())
+  tweetId Int
+  tweet   Tweet    @relation(fields: [tweetId], references: [id])
+  likedAt DateTime @default(now())
+  userId  Int?
+  User    User?    @relation(fields: [userId], references: [id])
+}
+
+model Comment {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  content   String?
+  Tweet     Tweet?    @relation(fields: [tweetId], references: [id])
+  tweetId   Int?
+  User      User?     @relation(fields: [userId], references: [id])
+  userId    Int?
+  comments  Comment[] @relation("CommentToComment")
+  Comment   Comment?  @relation("CommentToComment", fields: [commentId], references: [id])
+  commentId Int?
+}
+
+model Following {
+  id       Int    @id @default(autoincrement())
+  name     String
+  avatar   String?
+  followId Int
+  User     User?  @relation(fields: [userId], references: [id])
+  userId   Int?
+}
