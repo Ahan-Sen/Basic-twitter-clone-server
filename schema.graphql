@@ -42,8 +42,10 @@ type Mutation {
   createProfile(avatar: String, bio: String, location: String, website: String): Profile
   createReply(commentId: Int, content: String, id: Int): Comments
   createTweet(content: String): Tweet
+  deleteComment(id: Int): Comments
   deleteFollow(id: Int): Following
   deleteLike(id: Int): LikedTweet
+  deleteTweet(id: Int): Tweet
   follow(avatar: String, followId: Int, name: String): Following
   likeTweet(id: Int): LikedTweet
   login(email: String!, password: String!): AuthPayload

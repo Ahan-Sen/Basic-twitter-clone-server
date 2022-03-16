@@ -234,6 +234,21 @@ const Mutation = objectType({
           })
         }
       })
+
+      t.field("deleteTweet", {
+        type: "Tweet",
+        args: {
+          id: intArg()
+        },
+        resolve: (_parent, { id }, context: Context) => {
+          const userId = getUserId(context)
+          if (!userId) return new Error("Could not authenticate user.")
+          return context.prisma.tweet.delete({
+            where: { id: id }
+          })
+        }
+      })
+
     t.field("createComment", {
       type: "Comments",
       args: {
@@ -252,6 +267,21 @@ const Mutation = objectType({
         })
       }
     })
+
+    t.field("deleteComment", {
+      type: "Comments",
+      args: {
+        id: intArg()
+      },
+      resolve: (_parent, { id }, context: Context) => {
+        const userId = getUserId(context)
+        if (!userId) return new Error("Could not authenticate user.")
+        return context.prisma.comment.delete({
+          where: { id: id }
+        })
+      }
+    })
+
     t.field("createReply", {
       type: "Comments",
       args: {
