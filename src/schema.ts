@@ -131,13 +131,13 @@ const Mutation = objectType({
             email,
           },
         })
-
+        
         if (user == null) {
-          return new Error('No user found with this email')
+          return new Error('Invalid email or password')
         }
         const passwordValid = await compare(password, user.password)
         if (!passwordValid) {
-          return new Error('Invalid password')
+          return new Error('Invalid email or password')
         }
         return {
           token: sign({ userId: user.id }, APP_SECRET),
