@@ -45,7 +45,7 @@ model Tweet {
 model LikedTweet {
   id      Int      @id @default(autoincrement())
   tweetId Int
-  tweet   Tweet    @relation(fields: [tweetId], references: [id])
+  tweet   Tweet    @relation(fields: [tweetId], references: [id],onDelete: Cascade)
   likedAt DateTime @default(now())
   userId  Int?
   User    User?    @relation(fields: [userId], references: [id])
@@ -55,7 +55,7 @@ model Comment {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
   content   String?
-  Tweet     Tweet?    @relation(fields: [tweetId], references: [id])
+  Tweet     Tweet?    @relation(fields: [tweetId], references: [id] , onDelete: Cascade)
   tweetId   Int?
   User      User?     @relation(fields: [userId], references: [id])
   userId    Int?
