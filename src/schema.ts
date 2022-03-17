@@ -71,6 +71,19 @@ const Query = objectType({
         })
       }
     })
+
+    t.list.field("followers", {
+      type: "Following",
+      args: { id: intArg() },
+      resolve: (_parent, { id }, ctx:Context) => {
+        
+        return ctx.prisma.following.findMany({
+          where: {
+            followId: Number(id)
+          }
+        })
+      }
+    })
   },
 })
 

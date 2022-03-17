@@ -64,6 +64,7 @@ type Profile {
 
 type Query {
   allUsers: [User!]!
+  followers(id: Int): [Following]
   me: User
   tweet(id: Int): Tweet
   tweets: [Tweet]
