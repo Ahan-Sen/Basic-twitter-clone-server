@@ -10,6 +10,9 @@
     "generate:prisma": "prisma generate",
     "generate:nexus": "ts-node --transpile-only src/schema"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "prettier": {
     "semi": false,
     "singleQuote": true,
