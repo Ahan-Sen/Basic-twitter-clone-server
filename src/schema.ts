@@ -14,11 +14,11 @@ import {
   asNexusMethod,
   enumType,
 } from 'nexus'
-import { DateTimeResolver } from 'graphql-scalars'
+import { GraphQLDateTime } from 'graphql-scalars'
 import { Context } from './context'
 import { resolve } from 'path'
 
-export const DateTime = asNexusMethod(DateTimeResolver, 'date')
+export const DateTime = asNexusMethod(GraphQLDateTime, 'date')
 
 const Query = objectType({
   name: 'Query',
@@ -437,7 +437,7 @@ export const Tweet = objectType({
   definition(t) {
     t.nonNull.int('id')
     t.nonNull.string('content')
-    t.date('createdAt')
+    t.field('createdAt', { type: 'DateTime' })
     t.field('author', {
       type: 'User',
       resolve: (parent, _, context: Context) => {
@@ -475,7 +475,7 @@ const LikedTweet = objectType({
   name: 'LikedTweet',
   definition(t) {
     t.nonNull.int('id')
-    t.date('likedAt')
+    t.field('likedAt', { type: 'DateTime' })
     t.nonNull.field('tweet', {
       type: 'Tweet',
       resolve: (parent, _, context: Context) => {
@@ -515,7 +515,7 @@ const Comments = objectType({
   name: 'Comments',
   definition(t) {
     t.nonNull.int('id')
-    t.date('createdAt')
+    t.field('createdAt', { type: 'DateTime' })
     t.int('commentId')
     t.nonNull.string('content')
     t.nonNull.field('Tweet', {
